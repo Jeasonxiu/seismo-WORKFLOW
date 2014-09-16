@@ -34,6 +34,9 @@ OBJ = $(patsubst %, ${OBJDIR}/%, $(_OBJ))
 #override ADIOS_INC:=` ${ADIOS_DIR}/bin/adios_config -c -f`
 #override ADIOS_FLIB:=`${ADIOS_DIR}/bin/adios_config -l -f`
 
+ASDFLIBDIR=$(ASDFHOME)/lib
+ASDFINCDIR=$(ASDFHOME)/include
+
 ADIOS_INC=$(shell adios_config -cf)
 ADIOS_FLIB=$(shell adios_config -lf)
 
@@ -42,13 +45,13 @@ PROG = TEST
 default: ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
 .F.o:
 	$(OBJDIR)/%.o: $(SRCDIR)/%.F
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	  $(MPICC) -c -o $@ $< 

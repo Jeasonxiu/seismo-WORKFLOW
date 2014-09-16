@@ -6,3 +6,5 @@ RESP*
 *.obs
 *.syn
 *.sac
+*.o
+*.mod

@@ -10,7 +10,7 @@ CFLAGS = -check
 TAULIBDIR=$(PWD)/ttimes_mod
 #SACLIBDIR = $(PWD)/UTILS/lib
 SACLIBDIR = /home/lei/bin/sac-101.6a/build/src
-LIBS = -lsacio -lsac -lm -ltau -levresp
+LIBS = -lsacio -lsac -lm -ltau -levresp -lasdf
 #LIB = -L/opt/seismo/lib -lDRWFiles -lf90recipes -lDSacio -lDSacLib -lSacTools -lm
 
 #all_obj = $(shell find . -name obj/*.*)
@@ -21,6 +21,9 @@ LIBS = -lsacio -lsac -lm -ltau -levresp
 #override ADIOS_FLIB:=`${ADIOS_DIR}/bin/adios_config -l -f`
 ADIOS_INC=$(shell adios_config -cf)
 ADIOS_FLIB=$(shell adios_config -lf)
+
+ASDFLIBDIR=$(ASDFHOME)/lib
+ASDFINCDIR=$(ASDFHOME)/include
 
 ############################
 #compiler option
@@ -41,10 +44,10 @@ PROG = WORKFLOW
 default: MK_OBJDIR ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	  $(MPICC) -c -o $@ $< 
@@ -53,9 +56,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 MK_OBJDIR:
 	mkdir -p $(OBJDIR)
-
-make_asdf:
-	cd src/asdf_util; make
 
 make_shared:
 	cd src/shared; make
@@ -72,9 +72,9 @@ make_ma:
 all_obj = $(wildcard $(OBJDIR)/*.o)
 
 #${PROG}: make_asdf make_shared make_preprocess make_flexwin make_ma $(OBJ)
-${PROG}: make_asdf make_shared make_preprocess $(OBJ)
-	${MPIFC} ${CFLAGS} -o $@ $(all_obj) -I$(OBJDIR) \
-		-L${TAULIBDIR} -L${SACLIBDIR} ${LIBS} -L${EVALLIB} ${LIBS} ${ADIOS_FLIB}
+${PROG}: make_shared make_preprocess $(OBJ)
+	${MPIFC} ${CFLAGS} -o $@ $(all_obj) \
+		-L${TAULIBDIR} -L${SACLIBDIR} -L${ASDFLIBDIR} $(LIBS) -L${EVALLIB} ${LIBS} ${ADIOS_FLIB}
 
 
 .PHONY:clean print_var cleanall
