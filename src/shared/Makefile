@@ -6,7 +6,7 @@ SRCDIR = $(PWD)
 #IDIR   = $(PWD)/UTILS/include
 #EVALLIB=/home/lei/ASDF/evalresp/.libs
 
-CFLAGS = -check
+CFLAGS =
 
 # new version with default sac libraries
 SACLIBDIR = ${SACHOME}/lib
@@ -18,11 +18,11 @@ LIBS = -lsacio -lsac -lm
 #compiler option
 #OPT = -I${SHARED}
 #OPT = -std03
-FC = ifort
-CC = icc
-MPIFC = mpif90
-MPICC = mpicc
-CFLAGS= -g -O0 -check all
+FC = ftn
+CC = cc
+MPIFC = ftn
+MPICC = cc
+CFLAGS= -g
 
 _OBJ = flexwin_struct.o ma_struct.o \
 	var_main_mod.o win_io_subs.o \
@@ -42,13 +42,13 @@ PROG = TEST
 default: ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
 .F.o:
 	$(OBJDIR)/%.o: $(SRCDIR)/%.F
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
 
 #$(OBJDIR)/%.o: $(SRCDIR)/%.c
 #	  $(MPICC) -c -o $@ $< 

@@ -115,7 +115,7 @@ subroutine read_main_parfile_sub(ierr)
 
 2 format(a,a)
 3 format(a,l20)
-4 format(a,i)
+4 format(a,F15.5)
 5 format(a,F15.5)
 
   close(IIN)

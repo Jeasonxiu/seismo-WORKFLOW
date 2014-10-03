@@ -84,7 +84,7 @@ subroutine remove_response(obsd, npts_obsd, dt_obsd, sta, net, cha, locid, &
   !+++++++++++++++++++++++++++++++++++
   !evresp
   do i = 1, FFT_NPTS
-    freq(i) = sngl(i-1)/FFT_NPTS/dt_obsd
+    freq(i) = real(i-1)/FFT_NPTS/dt_obsd
   enddo
   freq(1) = eps
 

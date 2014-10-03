@@ -90,16 +90,16 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
   !-----------------------------------------------------------------------------------
     print *, "Cut begin...rank:", rank
     !copy trace info to local var
-    b_obsd=sngl(observed_raw%begin_value(irecord))
-    dt_obsd=sngl(observed_raw%sample_rate(irecord))
+    b_obsd=real(observed_raw%begin_value(irecord))
+    dt_obsd=real(observed_raw%sample_rate(irecord))
     npts_obsd=observed_raw%npoints(irecord)
-    obsd(1:npts_obsd)=sngl(observed_raw%records(irecord)%record(1:npts_obsd))
+    obsd(1:npts_obsd)=real(observed_raw%records(irecord)%record(1:npts_obsd))
 
-    b_synt=sngl(synthetic_raw%begin_value(irecord))
-    dt_synt=sngl(synthetic_raw%sample_rate(irecord))
+    b_synt=real(synthetic_raw%begin_value(irecord))
+    dt_synt=real(synthetic_raw%sample_rate(irecord))
     npts_synt=synthetic_raw%npoints(irecord)
     if (npts_synt .eq. 1) cycle
-    synt(1:npts_synt)=sngl(synthetic_raw%records(irecord)%record(1:npts_synt))
+    synt(1:npts_synt)=real(synthetic_raw%records(irecord)%record(1:npts_synt))
 
     sta=observed_raw%receiver_name_array(irecord)
     net=observed_raw%network_array(irecord)
@@ -134,7 +134,7 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
     !      slope, yint, siga, sigb, sig, cc)
     call detrend(obsd_cut, npts_obsd_cut, yint, slope, &
             b_obsd_cut, dt_obsd_cut)
-    call taper_width_to_points(.05, sngl(npts_obsd_cut), ipts)
+    call taper_width_to_points(.05, real(npts_obsd_cut), ipts)
     call taper(obsd_cut, npts_obsd_cut, 2, ipts)
     print *, "npoints:", npts_obsd_cut
     print *, "ipts:", ipts
@@ -152,7 +152,7 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
     !      slope, yint, siga, sigb, sig, cc)
     call detrend(synt_cut, npts_synt_cut, yint, slope, &
              b_synt_cut, dt_synt_cut)
-    call taper_width_to_points(.05, sngl(npts_synt_cut), ipts)
+    call taper_width_to_points(.05, real(npts_synt_cut), ipts)
     call taper(synt_cut, npts_synt_cut, 2, ipts)
 
     !print *, "npts:", npts_synt_cut
@@ -191,7 +191,7 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
     !      slope, yint, siga, sigb, sig, cc)
     call detrend(obsd_cut, npts_obsd_cut, yint, slope, &
                b_obsd_cut, dt_obsd_cut)
-    call taper_width_to_points(.05, sngl(npts_obsd_cut), ipts)
+    call taper_width_to_points(.05, real(npts_obsd_cut), ipts)
     call taper(obsd_cut, npts_obsd_cut, 2, ipts)
 
     !call demean(synt_cut, npts_synt_cut, mean)

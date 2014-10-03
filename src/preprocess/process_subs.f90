@@ -35,7 +35,7 @@ subroutine read_CMT(event_name, rank, comm, ierr)
   if (rank.eq.0) then
     CMT_FILE = 'CMT/CMT_'//trim(event_name)
     inquire(file=CMT_FILE,exist=file_exists)
-    if (file_exists .eq. .false.) then
+    if (file_exists) then
       stop 'error opening CMTSOLUTION file'
     endif
     open(1,file=CMT_FILE,status='old',action='read')
@@ -628,8 +628,8 @@ subroutine rotate_traces(my_asdf, my_asdf_rotate)
     do i=1, my_asdf%nrecords
       print *, "ii:",i
       !stlat2=atan(ecc*tan(my_asdf%receiver_lat(i)*rad))*(180/PI)
-      call distaz(sngl(my_asdf%event_lat(i)), sngl(my_asdf%event_lo(i)), &
-            sngl(my_asdf%receiver_lat(i)), sngl(my_asdf%receiver_lo(i)),&
+      call distaz(real(my_asdf%event_lat(i)), real(my_asdf%event_lo(i)), &
+            real(my_asdf%receiver_lat(i)), real(my_asdf%receiver_lo(i)),&
             azm, bzm, ddg, dkm)
       print *, "info:", my_asdf%event_lat(i), my_asdf%event_lo(i), &
         my_asdf%receiver_lat(i), my_asdf%receiver_lo(i), azm, bzm, ddg, dkm
@@ -1089,7 +1089,7 @@ subroutine cut_one_seis(data,time,npts,tmin,tmax,data_cut,time_cut,npts_start,np
   data_cut(1:npts_end-npts_start+1) = data(npts_start:npts_end)
 
   do i= 1,npts_end-npts_start+1
-    time_cut(i) = time(npts_start) + dt * sngl(i-1)
+    time_cut(i) = time(npts_start) + dt * real(i-1)
   enddo
 
 end subroutine cut_one_seis

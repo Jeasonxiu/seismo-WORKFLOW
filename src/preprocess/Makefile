@@ -6,7 +6,7 @@ SRCDIR = $(PWD)
 #IDIR   = $(PWD)/UTILS/include
 #EVALLIB=/home/lei/ASDF/evalresp/.libs
 
-CFLAGS = -check noarg_temp_created -g -O0
+CFLAGS =
 
 # new version with default sac libraries
 SACLIBDIR = $(PWD)/lib
@@ -18,11 +18,11 @@ LIBS = -lsacio -lsac
 #compiler option
 #OPT = -I${SHARED}
 #OPT = -std03
-FC = ifort
-CC = icc
-MPIFC = mpif90
-MPICC = mpicc
-CFLAGS= -g -O3 -check all
+FC = ftn
+CC = cc
+MPIFC = ftn
+MPICC = cc
+CFLAGS= -g
 
 _OBJ = 	process_par.o process_var.o process_subs.o process_subs2.o\
 				process_asdf.o
@@ -45,13 +45,13 @@ PROG = TEST
 default: ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) -I$(ASDFINCDIR)
 .F.o:
 	$(OBJDIR)/%.o: $(SRCDIR)/%.F
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	  $(MPICC) -c -o $@ $< 

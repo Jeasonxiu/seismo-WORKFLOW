@@ -2,8 +2,8 @@
 #PAR_FILE for main program
 #===========================
 
-OBSD_FILE                   = DATA/small_backup/201108231751A_obs.bp
-SYNT_FILE                   = DATA/small_backup/201108231751A_sem.bp
+OBSD_FILE                   = 201001122153A_obs.bp
+SYNT_FILE                   = 201001122153A_sem.bp
 SYNT_PHYDISP_FILE           = .
 
 #period band for filter

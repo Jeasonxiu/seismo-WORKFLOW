@@ -4,12 +4,12 @@ OBJDIR = ./obj
 SRCDIR = ./src/main
 EVALLIB = ./UTILS/evalresp/lib
 
-CFLAGS = -check
+CFLAGS =
 
 # new version with default sac libraries
 TAULIBDIR=$(PWD)/ttimes_mod
 #SACLIBDIR = $(PWD)/UTILS/lib
-SACLIBDIR = /home/lei/bin/sac-101.6a/build/src
+SACLIBDIR = $(SACHOME)/lib
 LIBS = -lsacio -lsac -lm -ltau -levresp -lasdf
 #LIB = -L/opt/seismo/lib -lDRWFiles -lf90recipes -lDSacio -lDSacLib -lSacTools -lm
 
@@ -29,11 +29,11 @@ ASDFINCDIR=$(ASDFHOME)/include
 #compiler option
 #OPT = -I${SHARED}
 #OPT = -std03
-FC = ifort
-CC = icc
-MPIFC = mpif90
-MPICC = mpicc
-CFLAGS= -g -O3 -check all
+FC = ftn
+CC = cc
+MPIFC = ftn
+MPICC = cc
+CFLAGS= -g
 
 _OBJ = main_subs.o main.o 
 
@@ -44,10 +44,10 @@ PROG = WORKFLOW
 default: MK_OBJDIR ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	  $(MPICC) -c -o $@ $< 
