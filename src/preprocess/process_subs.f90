@@ -35,9 +35,9 @@ subroutine read_CMT(event_name, rank, comm, ierr)
   if (rank.eq.0) then
     CMT_FILE = 'CMT/CMT_'//trim(event_name)
     inquire(file=CMT_FILE,exist=file_exists)
-    if (file_exists) then
-      stop 'error opening CMTSOLUTION file'
-    endif
+    !if (file_exists) then
+    !  stop 'error opening CMTSOLUTION file'
+    !endif
     open(1,file=CMT_FILE,status='old',action='read')
     read(1,*)datasource,yr,mo,da,ho,mi,sec,elat_pde,elon_pde,depth_pde,mb,ms
     ! ignore line with event name
@@ -190,7 +190,7 @@ subroutine cut_seis(obsd, npts1, dt1, b1, synt, npts2, dt2, b2, &
     obsd_cut, npts1_cut, dt1_cut, b1_cut, synt_cut, npts2_cut, &
     dt2_cut, b2_cut)
 
-    use process_var, only : MAX_TRACE_LENGTH
+    !use process_var, only : MAX_TRACE_LENGTH
     implicit none
   
     !varialbe in parameter list
@@ -590,6 +590,11 @@ subroutine rotate_traces(my_asdf, my_asdf_rotate)
     TORAD = 3.1415926/180.
 
     nrecords=my_asdf%nrecords
+   
+    ! Check that 3 components are on one processor
+    if (nrecords .eq. 0) then
+      return
+    endif
 
     print *, "******************"
     print *, "begin rotate..."

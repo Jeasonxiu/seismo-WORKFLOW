@@ -63,7 +63,9 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
 !-----------------------------------------------------------------------------------
 ! READ CMT FILE AND COMPUTE JULIAN DAY AND ORIGIN OF EVENT
 !-----------------------------------------------------------------------------------
+print *, "ok"
   call read_CMT(observed_raw%event, rank, comm, ierr)
+print *, "ok2"
   call event_origin(rank, comm, ierr)
 
 !-----------------------------------------------------------------------------------

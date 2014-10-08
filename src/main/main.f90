@@ -38,7 +38,7 @@ program main
   call MPI_COMM_SIZE(comm, nproc, ierr)
 
   call adios_init_noxml(comm, adios_err)
-  call adios_allocate_buffer(600, adios_err)
+  call adios_allocate_buffer(10, adios_err)
   call adios_declare_group(adios_group, "EVENTS", "iter", 1, adios_err)
   call adios_select_method(adios_group, "MPI", "", "", adios_err)
 

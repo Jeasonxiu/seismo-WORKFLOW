@@ -1,5 +1,5 @@
 OPT=-g 
-FC=ifort
+FC=ftn
 FFLAGS=$(OPT)
 
 CODE=${HOME}/code
