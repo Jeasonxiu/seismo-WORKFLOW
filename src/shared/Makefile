@@ -18,9 +18,9 @@ LIBS = -lsacio -lsac -lm
 #compiler option
 #OPT = -I${SHARED}
 #OPT = -std03
-FC = ftn
+FC = ifort
 CC = cc
-MPIFC = ftn
+MPIFC = mpif90
 MPICC = cc
 CFLAGS= -g
 
@@ -42,13 +42,13 @@ PROG = TEST
 default: ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
 .F.o:
 	$(OBJDIR)/%.o: $(SRCDIR)/%.F
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -J $(OBJDIR) $(ADIOS_INC)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC)
 
 #$(OBJDIR)/%.o: $(SRCDIR)/%.c
 #	  $(MPICC) -c -o $@ $< 

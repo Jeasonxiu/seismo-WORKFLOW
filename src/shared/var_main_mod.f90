@@ -1,6 +1,6 @@
 module var_main
 
-  character(len=300) :: obsd_file, synt_file, synt_phydisp_file
+  character(len=300) :: obsd_file, synt_file, synt_phydisp_file, cmt_file
 
   double precision :: MIN_PERIOD, MAX_PERIOD
 

@@ -22,6 +22,8 @@ subroutine read_main_parfile(rank, comm, ierr)
   call MPI_Bcast(SYNT_FILE,300,MPI_CHARACTER,0,comm,ierr)
   call MPI_Bcast(SYNT_PHYDISP_FILE,300,MPI_CHARACTER,0,comm,ierr)
 
+  call MPI_Bcast(CMT_FILE,300,MPI_CHARACTER,0,comm,ierr)
+
   call MPI_Bcast(MIN_PERIOD, 1, MPI_DOUBLE_PRECISION, 0, comm, ierr)
   call MPI_Bcast(MAX_PERIOD, 1, MPI_DOUBLE_PRECISION, 0, comm, ierr)
 
@@ -83,6 +85,9 @@ subroutine read_main_parfile_sub(ierr)
 	read(IIN,2) dummy_string, SYNT_PHYDISP_FILE
 	print *, "SYNT_PHYDISP_FILE: ", trim(SYNT_PHYDISP_FILE)
 
+  read(IIN,*)
+  read(IIn,2) dummy_string, CMT_FILE
+  print *, "CMT_FILE: ", trim(CMT_FILE)
   read(IIN,*)
   read(IIN,*)
   read(IIN,5) dummy_string, MIN_PERIOD

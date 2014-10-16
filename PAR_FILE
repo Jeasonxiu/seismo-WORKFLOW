@@ -2,9 +2,11 @@
 #PAR_FILE for main program
 #===========================
 
-OBSD_FILE                   = 201001122153A_obs.bp
-SYNT_FILE                   = 201001122153A_sem.bp
+OBSD_FILE                   = 201108231751A_obs.bp
+SYNT_FILE                   = 201108231751A_obs.bp
 SYNT_PHYDISP_FILE           = .
+
+CMT_FILE                    = CMT/CMT_201108231751A
 
 #period band for filter
 PERIOD_BEGIN                = 27.0
