@@ -6,10 +6,10 @@ SRCDIR = $(PWD)
 #IDIR   = $(PWD)/UTILS/include
 #EVALLIB=/home/lei/ASDF/evalresp/.libs
 
-CFLAGS =
+CFLAGS = -check noarg_temp_created -g -O0
 
 # new version with default sac libraries
-SACLIBDIR = $(PWD)/lib
+SACLIBDIR = /home/jas11/sac-101.6a/build/src
 LIBS = -lsacio -lsac
  #LIB = -L/opt/seismo/lib -lDRWFiles -lf90recipes -lDSacio -lDSacLib -lSacTools -lm
 
@@ -21,7 +21,7 @@ LIBS = -lsacio -lsac
 FC = ifort 
 CC = cc
 MPIFC = mpif90
-MPICC = cc
+MPICC = mpicc
 CFLAGS= -g
 
 _OBJ = 	process_par.o process_var.o process_subs.o process_subs2.o\
@@ -45,13 +45,13 @@ PROG = TEST
 default: ${PROG}
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f90
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.f
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC) -I$(ASDFINCDIR)
 .F.o:
 	$(OBJDIR)/%.o: $(SRCDIR)/%.F
-	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) -I$(ASDFINCDIR)
+	  $(MPIFC) ${CFLAGS} -c -o $@ $< -module $(OBJDIR) $(ADIOS_INC) -I$(ASDFINCDIR)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	  $(MPICC) -c -o $@ $< 

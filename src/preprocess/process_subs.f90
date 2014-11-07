@@ -5,8 +5,8 @@ module process_subs
 
   use asdf_data
   use mpi
-  !use process_par
-  !use process_var
+  use process_par
+  use process_var
 
   implicit none
 
@@ -20,7 +20,8 @@ contains
 !! \param CMT_FILE The location of the CMT file
 subroutine read_CMT(event_name, rank, comm, ierr)
 
-  use process_var
+  use var_main
+
   implicit none
 
   integer :: rank, comm, ierr
@@ -33,8 +34,7 @@ subroutine read_CMT(event_name, rank, comm, ierr)
   real :: mb, ms
 
   if (rank.eq.0) then
-    CMT_FILE = 'CMT/CMT_'//trim(event_name)
-    inquire(file=CMT_FILE,exist=file_exists)
+    !inquire(file=CMT_FILE,exist=file_exists)
     !if (file_exists) then
     !  stop 'error opening CMTSOLUTION file'
     !endif
@@ -82,7 +82,6 @@ end subroutine read_CMT
 subroutine event_origin(rank, comm, ierr)
 !-------------------------------------------------------------------------
 
-  use process_var
   implicit none
   integer :: jda, time_sec
   integer :: rank, comm, ierr
@@ -133,7 +132,6 @@ end subroutine event_origin
 !! \param begin_time The beginning time of the observed data
 subroutine adjust_event_time(observed, ierr)
 
-  use process_var
   type (asdf_event),intent(inout) :: observed
   integer :: ierr
 
@@ -265,7 +263,6 @@ subroutine cut_seis(obsd, npts1, dt1, b1, synt, npts2, dt2, b2, &
     print *, "cut define finished!"
     print *, npoints_start, npoints_end, nfillb, nfille
 
-    ! Cut observed trace
     call cut(obsd, npoints_start, npoints_end,&
               nfillb, nfille, temp_array)
     npts1_cut = cut_length
@@ -542,7 +539,7 @@ subroutine detrend(data, npts, yint, slope, b, dt)
   b_double=dble(b)
   dt_double=dble(dt)
 
-  call lifite(b_double, dt_double, data, npts, slope, yint, siga, sigb, sig, cc)
+  !call lifite(b_double, dt_double, data, npts, slope, yint, siga, sigb, sig, cc)
   call rtrend(data, npts, yint, slope, b, dt)
 
 end subroutine detrend
@@ -556,7 +553,6 @@ subroutine rotate_traces(my_asdf, my_asdf_rotate)
 
     use asdf_read_subs
     use process_par
-    use process_var
 
     type(asdf_event) :: my_asdf, my_asdf_rotate
 
@@ -1360,7 +1356,6 @@ subroutine store_asdf_metadata(asdf_old, asdf_new)
 
   use asdf_read_subs ! used for init_asdf_data
   use var_main
-  use process_var
   implicit none
   type (asdf_event),intent(inout) :: asdf_old, asdf_new
 

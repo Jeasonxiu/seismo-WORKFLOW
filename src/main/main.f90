@@ -52,7 +52,7 @@ program main
     station, network, component, receiver_id, 0, &
     rank, nproc, comm, ierr)
   call read_asdf_file(SYNT_FILE, synt_all, nrecords, &
-    station, network, component, receiver_id, 1, &
+    station, network, component, receiver_id, 0, &
     rank, nproc, comm, ierr)
   !if(USE_PHYDISP)then
   !  call read_asdf_file(SYNT_FILE, synt_phydisp_all, nrecords, &

@@ -127,6 +127,7 @@ subroutine remove_response(obsd, npts_obsd, dt_obsd, sta, net, cha, locid, &
   !do i=1,91
   !  freq(i)=0.01+0.001*(i-1)
   !enddo
+print *, cha
   iflag = evresp(sta, cha, net, locid, datime, &
             units, response(1:resp_length), freq, nfreq, resp, &
             rtype, verbose, start_stage, stop_stage, &
@@ -194,8 +195,8 @@ subroutine remove_response(obsd, npts_obsd, dt_obsd, sta, net, cha, locid, &
   !enddo
   !close(111)
   nfreq = FFT_NPTS/2+1
-  call ztransfer(obsd(1:npts_obsd), npts_obsd, dble(dt_obsd), s_re, s_im, &
-          x_re, x_im, nfreq, FFT_NPTS, delfrq, F)
+  !call ztransfer(obsd(1:npts_obsd), npts_obsd, dble(dt_obsd), s_re, s_im, &
+  !        x_re, x_im, nfreq, FFT_NPTS, delfrq, F)
   !open(unit=111, file="xre2.log")
   !do i=1,FFT_NPTS
   !  write(111,*) x_re(i), x_im(i), s_re(i), s_im(i)
@@ -268,8 +269,8 @@ subroutine filter(trace, npts, dt)
   delfrq = 1.0/(dble(FFT_NPTS)*dble(dt))
   !print *, npts
   nfreq = FFT_NPTS/2+1
-  call ztransfer(trace, npts, dble(dt), s_re, s_im, &
-          x_re, x_im, nfreq, FFT_NPTS, delfrq, F)
+  !call ztransfer(trace, npts, dble(dt), s_re, s_im, &
+  !        x_re, x_im, nfreq, FFT_NPTS, delfrq, F)
   trace(1:npts) = s_re(1:npts)!*1e-9
 
 

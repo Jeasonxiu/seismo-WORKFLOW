@@ -3,8 +3,6 @@
    
     use process_par
 
-    integer, parameter :: MAX_TRACE_LENGTH=1000000
-
     ! Directories and Files
     character(len=MAX_FILE_LENGTH) :: DATADIR, OUTDIR, OBSD_SAC, SYNT_SAC
     character(len=MAX_FILE_LENGTH) :: obsd_proc_file, synt_proc_file, CMT_FILE

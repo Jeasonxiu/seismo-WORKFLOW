@@ -13,7 +13,6 @@ subroutine process_asdf(observed_raw, synthetic_raw, observed_rotate, synthetic_
   use asdf_data
   use asdf_read_subs
   use asdf_write_subs
-  use process_var
   use process_subs
   use process_subs2
   use var_main
@@ -196,14 +195,14 @@ print *, "ok2"
     call taper_width_to_points(.05, real(npts_obsd_cut), ipts)
     call taper(obsd_cut, npts_obsd_cut, 2, ipts)
 
-    !call demean(synt_cut, npts_synt_cut, mean)
+    call demean(synt_cut, npts_synt_cut, mean)
     !call lifite(b_synt_cut, dt_synt_cut, synt_cut, npts_synt_cut,&
     !      slope, yint, siga, sigb, sig, cc)
-    !call detrend(synt_cut, npts_synt_cut, yint, slope, &
-    !            b_synt_cut, dt_synt_cut)
-    !call taper_width_to_points(.05, sngl(npts_synt_cut), ipts)
-    !call taper(synt_cut, npts_synt_cut, 2, ipts)
-    !print *, "prepared for deconvolution"
+    call detrend(synt_cut, npts_synt_cut, yint, slope, &
+                b_synt_cut, dt_synt_cut)
+    call taper_width_to_points(.05, sngl(npts_synt_cut), ipts)
+    call taper(synt_cut, npts_synt_cut, 2, ipts)
+    print *, "prepared for deconvolution"
     !call wsac1("taper.syn", synt_cut, npts_synt_cut,&
     !      b_synt_cut, dt_synt_cut, nerr)
     !call wsac1("taper.obs", obsd_cut, npts_obsd_cut,&
@@ -240,11 +239,11 @@ print *, "ok2"
     ! FINAL CUT OF OBSERVED AND SYNTHETIC SEISMOGRAMS
     !-----------------------------------------------------------------------------------
 
-    call cut_seis(obsd_interp, npts_obsd_interp, dt_obsd_interp, b_obsd_interp, &
-      synt_cut, npts_synt_interp, dt_synt_interp, b_synt_interp, &
-      obsd_final, npts_obsd_final, dt_obsd_final, b_obsd_final, &
-      synt_final, npts_synt_final, dt_synt_final, b_synt_final)
-    print *, "final cut finished"
+    !call cut_seis(obsd_interp, npts_obsd_interp, dt_obsd_interp, b_obsd_interp, &
+    !  synt_cut, npts_synt_interp, dt_synt_interp, b_synt_interp, &
+    !  obsd_final, npts_obsd_final, dt_obsd_final, b_obsd_final, &
+    !  synt_final, npts_synt_final, dt_synt_final, b_synt_final)
+    !print *, "final cut finished"
 !    
     observed_proc%begin_value(irecord)=b_obsd_interp
     observed_proc%sample_rate(irecord)=dt_obsd_interp
@@ -257,7 +256,7 @@ print *, "ok2"
     synthetic_proc%npoints(irecord)=npts_synt_interp
     allocate(synthetic_proc%records(irecord)%record(npts_synt_interp))
     synthetic_proc%records(irecord)%record(1:npts_synt_interp)=dble(synt_interp(1:npts_synt_interp))
-    !endif
+
   enddo
 
   !-----------------------------------------------------------------------------------
